@@ -4,9 +4,9 @@
   "description": "A website similar to e-smartservices.in, built with React and TypeScript.",
   "main": "index.html",
   "scripts": {
-    "dev": "vite ",
+    "dev": "vite",
     "start": "vite",
-    "build": "chmod +x node_modules/.bin/vite && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "keywords": [
