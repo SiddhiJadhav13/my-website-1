@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     if (!name || !email || !location) return res.status(400).json({ error: 'Missing fields' });
 
     if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !DEST_EMAIL) {
-      return res.status(500).json({ error: 'SMTP not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS, DEST_EMAIL.' });
+      return res.status(500).json({ error: 'SMTP not configured. Set SMTP_* and DEST_EMAIL in Vercel.' });
     }
 
     const transporter = nodemailer.createTransport({
