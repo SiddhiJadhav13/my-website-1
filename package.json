@@ -1,0 +1,32 @@
+{
+  "name": "my-website",
+  "version": "1.0.0",
+  "description": "A website similar to e-smartservices.in, built with React and TypeScript.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "start": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "vite",
+    "website"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "^5.2.2",
+    "vite": "^7.1.10"
+  }
+}
