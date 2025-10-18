@@ -4,13 +4,15 @@ export default function EnquiryForm() {
   const [form, setForm] = useState({ name: '', email: '', location: '' });
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [serverInfo, setServerInfo] = useState(null); // new
+  const [serverInfo, setServerInfo] = useState(null);
 
-  function handleChange(e) {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+  // Update form values
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  async function handleSubmit(e) {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus(null);
     setServerInfo(null);
@@ -22,13 +24,16 @@ export default function EnquiryForm() {
 
     setLoading(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+      // Use environment variable for API base URL; fallback to localhost
+      const API_BASE = import.meta.env.VITE_API_URL || '';
       const res = await fetch(`${API_BASE}/api/enquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
+
       const data = await res.json();
+
       if (res.ok) {
         setStatus({ type: 'success', message: 'Enquiry sent — we will contact you soon.' });
         setForm({ name: '', email: '', location: '' });
@@ -42,7 +47,7 @@ export default function EnquiryForm() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <form className="enquiry-form" onSubmit={handleSubmit}>
@@ -59,7 +64,9 @@ export default function EnquiryForm() {
         <input name="location" value={form.location} onChange={handleChange} />
       </label>
 
-      <button type="submit" disabled={loading}>{loading ? 'Sending…' : 'Send Enquiry'}</button>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Sending…' : 'Send Enquiry'}
+      </button>
 
       {status && (
         <div className={`form-status ${status.type}`}>
@@ -71,7 +78,10 @@ export default function EnquiryForm() {
         <div style={{ marginTop: 10, fontSize: 13 }}>
           {serverInfo.preview && (
             <div>
-              Preview URL (test email): <a href={serverInfo.preview} target="_blank" rel="noreferrer">{serverInfo.preview}</a>
+              Preview URL (test email):{' '}
+              <a href={serverInfo.preview} target="_blank" rel="noreferrer">
+                {serverInfo.preview}
+              </a>
             </div>
           )}
           {serverInfo.messageId && <div>Message ID: {serverInfo.messageId}</div>}
