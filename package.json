@@ -18,6 +18,7 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
+    "nodemailer": "^7.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1"
