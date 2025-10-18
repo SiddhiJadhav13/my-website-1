@@ -4,8 +4,8 @@
   "description": "A website similar to e-smartservices.in, built with React and TypeScript.",
   "main": "index.html",
   "scripts": {
-    "dev": "vite --port 3000",
-    "start": "vite --port 3000",
+    "dev": "vite ",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -28,5 +28,8 @@
     "@vitejs/plugin-react": "^5.0.4",
     "typescript": "^5.2.2",
     "vite": "^7.1.10"
-  }
+  },
+  "engines": {
+  "node": "18.x"
+}
 }
