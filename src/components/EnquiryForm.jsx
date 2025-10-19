@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './../../../styles.css';
+import '../styles.css';
 
 export default function EnquiryForm() {
   const [form, setForm] = useState({ name: '', email: '', location: '' });
