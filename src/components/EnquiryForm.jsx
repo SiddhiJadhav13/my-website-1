@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './../../../styles.css';
 
 export default function EnquiryForm() {
   const [form, setForm] = useState({ name: '', email: '', location: '' });
@@ -24,70 +25,43 @@ export default function EnquiryForm() {
 
     setLoading(true);
     try {
-      // Use environment variable for API base URL; fallback to localhost
-      const API_BASE = import.meta.env.VITE_API_URL || '';
-      const res = await fetch(`${API_BASE}/api/enquiry`, {
+      // call same-origin serverless function
+      const res = await fetch(`/api/enquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
-      const data = await res.json();
+      let data;
+      try { data = await res.json(); } catch { data = { error: await res.text().catch(() => '') || 'Invalid JSON' }; }
 
       if (res.ok) {
-        setStatus({ type: 'success', message: 'Enquiry sent — we will contact you soon.' });
+        setStatus({ type: 'success', message: 'Enquiry sent — check your inbox soon.' });
         setForm({ name: '', email: '', location: '' });
         setServerInfo(data);
       } else {
-        setStatus({ type: 'error', message: data?.error || 'Failed to send enquiry.' });
+        setStatus({ type: 'error', message: data?.error || `Server ${res.status}` });
         setServerInfo(data);
       }
     } catch (err) {
-      setStatus({ type: 'error', message: 'Network error — could not send enquiry.' });
+      console.error('Enquiry send error:', err);
+      setStatus({ type: 'error', message: `Network error — ${err?.message || 'could not send enquiry.'}` });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form className="enquiry-form" onSubmit={handleSubmit}>
-      <label>
-        Name
-        <input name="name" value={form.name} onChange={handleChange} />
-      </label>
-      <label>
-        Email
-        <input name="email" type="email" value={form.email} onChange={handleChange} />
-      </label>
-      <label>
-        Preferred Location to Buy
-        <input name="location" value={form.location} onChange={handleChange} />
-      </label>
+    <form className="enquiry-card" onSubmit={handleSubmit}>
+      <h3>Send an Enquiry</h3>
+      <input name="name" placeholder="Your name" value={form.name} onChange={handleChange} />
+      <input name="email" placeholder="Email address" type="email" value={form.email} onChange={handleChange} />
+      <input name="location" placeholder="Preferred location" value={form.location} onChange={handleChange} />
+      <button type="submit" disabled={loading}>{loading ? 'Sending…' : 'Send Enquiry'}</button>
 
-      <button type="submit" disabled={loading}>
-        {loading ? 'Sending…' : 'Send Enquiry'}
-      </button>
+      {status && <div className={`form-status ${status.type}`}>{status.message}</div>}
 
-      {status && (
-        <div className={`form-status ${status.type}`}>
-          {status.message}
-        </div>
-      )}
-
-      {serverInfo && (
-        <div style={{ marginTop: 10, fontSize: 13 }}>
-          {serverInfo.preview && (
-            <div>
-              Preview URL (test email):{' '}
-              <a href={serverInfo.preview} target="_blank" rel="noreferrer">
-                {serverInfo.preview}
-              </a>
-            </div>
-          )}
-          {serverInfo.messageId && <div>Message ID: {serverInfo.messageId}</div>}
-          {serverInfo.error && <div style={{ color: 'crimson' }}>Server error: {serverInfo.error}</div>}
-        </div>
-      )}
+      {serverInfo && serverInfo.messageId && <div className="info">Message ID: {serverInfo.messageId}</div>}
     </form>
   );
 }

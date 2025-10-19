@@ -68,6 +68,17 @@ export default function About() {
         <p>Click any image to enlarge.</p>
         <ImageGallery />
       </section>
+
+      <div className="about-card">
+        <h2>About BrightSite</h2>
+        <p>We match buyers with great properties. Fast replies — just send an enquiry.</p>
+        <ul>
+          <li>Friendly support</li>
+          <li>Fast responses</li>
+          <li>Secure handling of enquiries</li>
+        </ul>
+        <img src="https://images.unsplash.com/photo-1505691723518-36a3f673b5c5?w=800&q=60" alt="team" />
+      </div>
     </main>
   );
 }
